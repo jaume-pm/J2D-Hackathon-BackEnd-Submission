@@ -10,3 +10,15 @@ def get_skins_available():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+
+def add_skins_to_database():
+    try:
+        # Obtener todas las filas de la colección skins
+        available_skins = list(skins.find({}, {'_id': 0}))
+
+        return jsonify({"skins": available_skins}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

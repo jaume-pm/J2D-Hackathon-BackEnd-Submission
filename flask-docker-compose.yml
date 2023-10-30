@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   mongo:
-    image: mongo
+    build: /MONGO
     restart: always
     ports:
     - 27017:27017
@@ -28,6 +28,5 @@ services:
       - 17011:17011
      depends_on:
       - mongo
-     environment:
-      MONGO_IP: mongo
+      
     

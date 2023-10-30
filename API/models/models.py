@@ -3,7 +3,7 @@ import pymongo, os
 config = {
     "username": "admin",
     "password": "pass",
-    "host": os.environ.get("MONGO_IP"),
+    "host": "mongo",
     "port": "27017"
 }
 
