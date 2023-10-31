@@ -1,0 +1,3 @@
+# Ignore the MONGO/data files where the bd information is stored.
+mongo/data/*
+!mongo/data/.gitkeep

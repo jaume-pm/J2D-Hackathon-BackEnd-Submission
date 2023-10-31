@@ -3,10 +3,12 @@ version: '3.1'
 services:
 
   mongo:
-    build: /MONGO
+    build: /mongo
     restart: always
     ports:
     - 27017:27017
+    volumes:
+    - ./mongo/data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: pass
@@ -28,5 +30,3 @@ services:
       - 17011:17011
      depends_on:
       - mongo
-      
-    
