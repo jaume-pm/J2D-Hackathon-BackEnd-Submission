@@ -2,39 +2,61 @@
 var conn = new Mongo();
 var db = conn.getDB("J2D"); // Change to your database name
 
+// Array of available colors
+var colors = ["Red", "Blue", "Green", "Purple", "Gold"];
+
+// Function to get a random element from an array
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Function to generate a random color
+function getRandomColor() {
+    return getRandomElement(colors);
+}
+
+function getRandomSkinId() {
+    var randomSkinCursor = db.skins.aggregate([{ $sample: { size: 1 } }]); // Get random skin cursor
+    return randomSkinCursor.toArray()[0]._id; // Get random skin _id
+}
+
+
 // Users data to be inserted
 var usersToInsert = [
     {
-        id: 1,
-        username: "user1",
-        email: "user1@example.com",
-        password: "password1",
-        balance: 100.00,
+        username: "john_doe",
+        email: "john.doe@example.com",
+        password: "hashedpassword123",
+        balance: 150.25,
         owned_skins: [
-            { id: 1, color: "Red" },
-            { id: 3, color: "Green" }
+            {
+                skin: getRandomSkinId(),
+                color: getRandomColor()
+            }
         ]
     },
     {
-        id: 2,
-        username: "user2",
-        email: "user2@example.com",
-        password: "password2",
-        balance: 50.50,
+        username: "jane_smith",
+        email: "jane.smith@example.com",
+        password: "securehashedpass456",
+        balance: 75.50,
         owned_skins: [
-            { id: 2, color: "Blue" },
-            { id: 4, color: "Purple" }
+            {
+                skin: getRandomSkinId(),
+                color: getRandomColor()
+            }
         ]
     },
     {
-        id: 3,
-        username: "user3",
-        email: "user3@example.com",
-        password: "password3",
-        balance: 75.25,
+        username: "alex_jones",
+        email: "alex.jones@example.com",
+        password: "supersecretword789",
+        balance: 120.75,
         owned_skins: [
-            { id: 1, color: "Red" },
-            { id: 5, color: "Gold" }
+            {
+                skin: getRandomSkinId(),
+                color: getRandomColor()
+            }
         ]
     }
 ];
