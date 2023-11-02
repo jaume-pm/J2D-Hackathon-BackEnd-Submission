@@ -1,6 +1,6 @@
 from flask import jsonify, request
-import json
 from models.models import *
+from bson.objectid import ObjectId
 
 def get_skins_available():
     try:
@@ -11,7 +11,6 @@ def get_skins_available():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 
 def add_skins_to_db(skins_data):
@@ -37,5 +36,37 @@ def add_skins():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def get_user_skins_info():
+    try:
+        json_data = request.get_json()
+        user_id = json_data.get("user_id")
+
+        if not user_id:
+            return jsonify({"error": "User ID not provided"}), 400
+
+        user_id_obj = ObjectId(user_id)
+        user = users.find_one({"_id": user_id_obj})
+
+        if user:
+            user_owned_skins = user.get("owned_skins", [])
+            user_skin_info = []
+
+            for owned_skin in user_owned_skins:
+                skin_id = owned_skin.get("skin")
+                skin = skins.find_one({"_id": skin_id})
+                if skin:
+                    user_skin_info.append({
+                        "id": str(skin_id),  # Use the string representation
+                        "name": skin.get("name"),
+                        "color": owned_skin.get("color"),
+                        "rarity": skin.get("rarity")
+                    })
+
+            return jsonify({"skins": user_skin_info}), 200        
+
+        else:
+            return jsonify({"error": f"No user found with ID: {user_id}"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
