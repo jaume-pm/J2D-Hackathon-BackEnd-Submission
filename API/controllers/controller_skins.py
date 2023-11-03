@@ -69,4 +69,43 @@ def get_user_skins_info():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+def change_skin_color():
+    try:
+        json_data = request.get_json()
+        user_id = json_data.get("user_id")
+        
+        if not user_id:
+            return jsonify({"error": "User ID not provided"}), 400
+        
+        skin_id = json_data.get("skin")
+        skin_id_obj = ObjectId(skin_id)
+
+        if not skin_id:
+            return jsonify({"error": "Skin id not provided"}), 400
+        
+        new_color = json_data.get("color")
+
+        if not new_color:
+            return jsonify({"error": "New color not provided"}), 400
+
+        user_id_obj = ObjectId(user_id)
+        user = users.find_one({"_id": user_id_obj})
+
+        if user:
+            try:
+                users.update_one(
+                    {'_id': user_id_obj, 'owned_skins.skin': skin_id_obj},
+                    {'$set': {'owned_skins.$.color': new_color}}
+                )
+            except Exception as e:
+                print(f'Error updating skin color: {e}')
+
+            return jsonify({"message": f"Color for {skin_id} successfully changed to {new_color}."}), 200        
+
+        else:
+            return jsonify({"error": f"No user found with ID: {user_id}"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
