@@ -9,10 +9,10 @@ WORKDIR /app
 COPY /controllers ./controllers
 COPY /routes ./routes
 COPY /models ./models
+COPY /utilities ./utilities
 
 COPY requirements/requirements.txt .
 COPY app.py .
-
 
 
 # Install Python dependencies

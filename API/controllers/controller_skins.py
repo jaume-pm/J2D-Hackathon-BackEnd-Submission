@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from models.models import *
 from bson.objectid import ObjectId
+from utilities.getters import *
 
 def get_skins_available():
     try:
@@ -13,13 +14,6 @@ def get_skins_available():
         return jsonify({"error": str(e)}), 500
 
 
-def add_skins_to_db(skins_data):
-
-    # Insert skins into the collection
-    skins.insert_many(skins_data)
-
-    return "Skins added successfully!"
-
 def add_skins():
     try:
         # Check if the request contains a JSON file
@@ -29,9 +23,9 @@ def add_skins():
         file = request.files['file']
         skins_data = json.load(file)
 
-        result = add_skins_to_db(skins_data)
+        skins.insert_many(skins_data)
 
-        return jsonify({"message": result}), 200
+        return jsonify({"result": "OK"}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -73,39 +67,32 @@ def get_user_skins_info():
 def change_skin_color():
     try:
         json_data = request.get_json()
-        user_id = json_data.get("user_id")
-        
-        if not user_id:
-            return jsonify({"error": "User ID not provided"}), 400
-        
-        skin_id = json_data.get("skin")
-        skin_id_obj = ObjectId(skin_id)
 
-        if not skin_id:
-            return jsonify({"error": "Skin id not provided"}), 400
-        
-        new_color = json_data.get("color")
+        user_id = get_user_id(json_data)
+        skin_id = get_skin_id(json_data)
+        color = get_skin_color(json_data)
 
-        if not new_color:
-            return jsonify({"error": "New color not provided"}), 400
-
-        user_id_obj = ObjectId(user_id)
-        user = users.find_one({"_id": user_id_obj})
+        user = users.find_one({"_id": user_id})
 
         if user:
             try:
-                users.update_one(
-                    {'_id': user_id_obj, 'owned_skins.skin': skin_id_obj},
-                    {'$set': {'owned_skins.$.color': new_color}}
+                result = users.update_one(
+                    {'_id': user_id, 'owned_skins.skin': skin_id},
+                    {'$set': {'owned_skins.$.color': color}}
                 )
+                if result.matched_count == 0:
+                    return jsonify({"error": "No matching skin found"}), 404                
+                else:
+                    return jsonify({"result": "OK"}), 200 
+              
             except Exception as e:
-                print(f'Error updating skin color: {e}')
-
-            return jsonify({"message": f"Color for {skin_id} successfully changed to {new_color}."}), 200        
-
+                return jsonify({"error": f"Error updating skin color: {str(e)}"}), 500
         else:
             return jsonify({"error": f"No user found with ID: {user_id}"}), 404
 
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
+
 
