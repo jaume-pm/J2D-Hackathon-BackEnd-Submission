@@ -5,7 +5,7 @@ def routes_skins(app):
     # app.route("/skins/buy", methods=['POST'])()
     app.route("/skins/myskins", methods=['GET'])(get_user_skins_info)
     app.route("/skins/color", methods=['PUT'])(change_skin_color)
-    # app.route("/skins/delete/{id}", methods=['DELETE'])()
+    app.route("/skins/delete/<skin_id>", methods=['DELETE'])(sell_skin)
     # app.route("/skin/getskin/{id}", methods=['GET'])()
     app.route('/add_skins', methods=['POST'])(add_skins)
 

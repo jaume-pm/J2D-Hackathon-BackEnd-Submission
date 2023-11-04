@@ -30,7 +30,7 @@ var usersToInsert = [
         balance: 150.25,
         owned_skins: [
             {
-                skin: getRandomSkinId(),
+                skin_id: getRandomSkinId(),
                 color: getRandomColor()
             }
         ]
@@ -42,7 +42,7 @@ var usersToInsert = [
         balance: 75.50,
         owned_skins: [
             {
-                skin: getRandomSkinId(),
+                skin_id: getRandomSkinId(),
                 color: getRandomColor()
             }
         ]
@@ -54,7 +54,7 @@ var usersToInsert = [
         balance: 120.75,
         owned_skins: [
             {
-                skin: getRandomSkinId(),
+                skin_id: getRandomSkinId(),
                 color: getRandomColor()
             }
         ]
