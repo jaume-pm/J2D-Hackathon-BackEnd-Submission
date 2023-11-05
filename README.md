@@ -1,23 +1,23 @@
-## J2D-Hackathon-BackEnd-Submission 🚀
+# J2D-Hackathon-BackEnd-Submission 🚀
 
-### Project Overview 🌐
+## Project Overview 🌐
 Developed for the J2D Microhackathon, this backend API offers users a platform to interact with virtual skins, manage their in-app balance, and benefit from numerous features.
 
-#### Unique Features & Decisions 🛠️
+### Unique Features & Decisions 🛠️
 - **Extended Functionality**: This project introduces sophisticated user management and a detailed economic model, going beyond the main requirements.
 - **Balance Management**: Actions like purchasing or selling a skin impact the user's balance immediately. 💰
 - **Route Update**: Modified the route from `/skins/avaible` to `/skins/available` to address a potential typo.
 - **Docker Integration**: The project is dockerized for streamlined deployment and setup. 🐳 It also includes a Mongo Express Docker configuration for an enhanced visualization of the MongoDB database.
 - **Database Initialization**: MongoDB scripts (`insert_skins.js` and `insert_users.js`) preload data, ensuring a rich experience right from the start.
 
-### Data Models 📊
-#### 1. **Skin**: Virtual skin attributes:
+## Data Models 📊
+### 1. **Skin**: Virtual skin attributes:
    - `name`: Distinctive name.
    - `price`: Skin cost.
    - `color`: Default color.
    - `rarity`: Rarity level.
   
-#### 2. **User**: User-specific attributes:
+### 2. **User**: User-specific attributes:
    - `username`: Unique identifier.
    - `email`: Contact email.
    - `password`: Encrypted password.
@@ -26,7 +26,7 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
      - `skin_id`: Identifier.
      - `color`: Current color.
 
-### API Endpoints 📡
+## API Endpoints 📡
 1. **GET /skins/available**: 
    - **Returns**: List of available skins.
      - Successful Response: `{"result": "ok", "skins": [skins_data]}`
@@ -59,11 +59,12 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
      - Error Response: `{"error": error_message}`
   
 7. **POST /add_skins**: 
-   - **Required**: A file uploaded with the request, containing an array of skin data in JSON format.
+  - **Required JSON**: `{"file": "JSON_file"}`
+   - **Required**: A file uploaded with the request. JSON_file must contain all the information of the skins that are wished to be added.
      - Successful Response: `{"result": "ok"}`
      - Error Response: `{"error": error_message}`
 
-#### File Descriptions 📂
+## File Descriptions 📂
 - **API**:
   - **Dockerfile**: Docker setup for the API.
   - **app.py**: Main entry for the application.
@@ -79,11 +80,10 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
   - **insert_skins.js & insert_users.js**: Database seeding scripts.
   - **data**: Docker volume where the database is stored.
 
-### Setup & Running 🚦
+## Setup & Running 🚦
 1. Ensure Docker and Docker Compose are installed.
 2. Navigate to the project root.
 3. Run the following command:
-
 ```bash
 docker-compose -f flask-docker-compose.yml up
 ```
