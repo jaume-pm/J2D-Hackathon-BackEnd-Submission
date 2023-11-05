@@ -59,7 +59,7 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
      - Error Response: `{"error": error_message}`
   
 7. **POST /add_skins**: 
-  - **Required JSON**: `{"file": "JSON_file"}`
+  - **Required JSON**: `{"file": JSON_file}`
    - **Required**: A file uploaded with the request. JSON_file must contain all the information of the skins that are wished to be added.
      - Successful Response: `{"result": "ok"}`
      - Error Response: `{"error": error_message}`
