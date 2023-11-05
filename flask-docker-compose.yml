@@ -10,8 +10,8 @@ services:
     volumes:
     - ./mongo/data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_ROOT_USERNAME: jump2digital
+      MONGO_INITDB_ROOT_PASSWORD: "17112023"
 
   mongo-express:
     image: mongo-express
@@ -22,9 +22,11 @@ services:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
-      ME_CONFIG_MONGODB_URL: mongodb://admin:pass@mongo:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: jump2digital
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "17112023"
+      ME_CONFIG_MONGODB_URL: mongodb://jump2digital:17112023@mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: jump2digital
+      ME_CONFIG_BASICAUTH_PASSWORD: "17112023"
 
   api:
      build: /API

@@ -224,7 +224,7 @@ def buy_skin():
             )
 
             # Return a success response
-            return jsonify({"message": "Skin purchased successfully"}), 200
+            return jsonify({"result": "ok"}), 200
 
         except Exception as e:
             # Handle exceptions related to buying the skin
