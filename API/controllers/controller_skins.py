@@ -169,8 +169,6 @@ def sell_skin(skin_id):
                     }
                 )
 
-                print(f"Modified count: {result.modified_count}, Matched count: {result.matched_count}")
-
                 if result.matched_count == 0:
                     return jsonify({"error": "The user does not own the skin"}), 404
                 else:
@@ -185,9 +183,6 @@ def sell_skin(skin_id):
         return jsonify({"error": str(e)}), 400
     except Exception as e:
         return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
-
-from bson import ObjectId
-from flask import jsonify
 
 def get_skin_info(skin_id):
     try:
@@ -212,3 +207,50 @@ def get_skin_info(skin_id):
         # Handle exceptions and return an error response
         return jsonify({"error": str(e)}), 500
 
+
+
+def buy_skin():
+    try:
+        json_data = request.get_json()
+        user_id = get_user_id(json_data)
+        skin_id = get_skin_id(json_data)
+
+        user = users.find_one({"_id": user_id})
+
+        if user:
+            try:
+                # Check if user already has the skin
+                if any(owned_skin['skin_id'] == skin_id for owned_skin in user.get('owned_skins', [])):
+                    return jsonify({"error": "User already owns the skin"}), 400
+
+                # Get the skin details
+                skin = skins.find_one({"_id": skin_id})
+
+                # Check if the user has enough balance to buy the skin
+                skin_price = skin.get("price")
+                user_balance = user.get("balance")
+                if user_balance < skin_price:
+                    return jsonify({"error": "Insufficient balance"}), 400
+
+                # Deduct the skin price from the user's balance and add the skin to owned_skins
+                new_balance = user_balance - skin_price
+
+                # Update the user's document in the database
+                users.update_one(
+                    {"_id": user_id},
+                    {"$inc": {"balance": -skin_price}, "$push": {"owned_skins": {"skin_id": skin_id, "color": skin.get("color")}}}
+                )
+
+                return jsonify({"message": "Skin purchased successfully"}), 200
+
+            except Exception as e:
+                return jsonify({"error": f"Error buying skin: {str(e)}"}), 500
+        else:
+            return jsonify({"error": f"No user found with ID: {user_id}"}), 404
+
+    except ValidationError as e:
+        # Handle validation errors and return an error response
+        return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        # Handle unexpected exceptions and return an error response
+        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
