@@ -1,6 +1,6 @@
-### J2D-Hackathon-BackEnd-Submission 🚀
+## J2D-Hackathon-BackEnd-Submission 🚀
 
-#### Project Overview 🌐
+### Project Overview 🌐
 Developed for the J2D Microhackathon, this backend API offers users a platform to interact with virtual skins, manage their in-app balance, and benefit from numerous features.
 
 #### Unique Features & Decisions 🛠️
@@ -10,14 +10,14 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
 - **Docker Integration**: The project is dockerized for streamlined deployment and setup. 🐳 It also includes a Mongo Express Docker configuration for an enhanced visualization of the MongoDB database.
 - **Database Initialization**: MongoDB scripts (`insert_skins.js` and `insert_users.js`) preload data, ensuring a rich experience right from the start.
 
-#### Data Models 📊
-1. **Skin**: Virtual skin attributes:
+### Data Models 📊
+#### 1. **Skin**: Virtual skin attributes:
    - `name`: Distinctive name.
    - `price`: Skin cost.
    - `color`: Default color.
    - `rarity`: Rarity level.
   
-2. **User**: User-specific attributes:
+#### 2. **User**: User-specific attributes:
    - `username`: Unique identifier.
    - `email`: Contact email.
    - `password`: Encrypted password.
@@ -26,7 +26,7 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
      - `skin_id`: Identifier.
      - `color`: Current color.
 
-#### API Endpoints 📡
+### API Endpoints 📡
 1. **GET /skins/available**: 
    - **Returns**: List of available skins.
      - Successful Response: `{"result": "ok", "skins": [skins_data]}`
@@ -79,14 +79,17 @@ Developed for the J2D Microhackathon, this backend API offers users a platform t
   - **insert_skins.js & insert_users.js**: Database seeding scripts.
   - **data**: Docker volume where the database is stored.
 
-#### Setup & Running 🚦
+### Setup & Running 🚦
 1. Ensure Docker and Docker Compose are installed.
 2. Navigate to the project root.
 3. Run the following command:
 
-```docker-compose -f flask-docker-compose.yml up```
+```bash
+docker-compose -f flask-docker-compose.yml up
+```
 
-4. Interact with the API at `http://localhost:17011` and manage MongoDB at `http://localhost:8081` using the credentials:
+4. Interact with the API at [http://localhost:17011](http://localhost:17011) and manage MongoDB at [http://localhost:8081](http://localhost:8081) using the credentials:
+
    - **Username**: jump2digital
    - **Password**: 17112023 (The day of the Hackathon 👀)
 

@@ -1,8 +1,8 @@
 import pymongo, os
 
 config = {
-    "username": "admin",
-    "password": "pass",
+    "username": "jump2digital",
+    "password": "17112023",
     "host": "mongo",
     "port": "27017"
 }
