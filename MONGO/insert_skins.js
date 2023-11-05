@@ -5,39 +5,36 @@ var db = conn.getDB("J2D"); // Change to your database name
 // Skins data to be inserted
 var skinsToInsert = [
     {
-        name: "Skin A",
+        name: "Nebula Fury",
         price: 25.99,
-        color: "Red",
+        color: "Purple",
         rarity: "Rare"
     },
     {
-        name: "Skin B",
+        name: "Shadow Walker",
         price: 19.50,
-        color: "Blue",
+        color: "Black",
         rarity: "Common"
     },
     {
-        name: "Skin C",
+        name: "Chrono Pulse",
         price: 30.75,
-        color: "Green",
+        color: "Gold",
         rarity: "Epic"
     },
     {
-        name: "Skin D",
+        name: "Celestial Haze",
         price: 15.99,
-        color: "Purple",
+        color: "Blue",
         rarity: "Uncommon"
     },
     {
-        name: "Skin E",
+        name: "Phoenix Ember",
         price: 22.49,
-        color: "Gold",
+        color: "Red",
         rarity: "Legendary"
     }
 ];
 
 // Insert skins into the "skins" collection
 db.skins.insertMany(skinsToInsert);
-
-// Output the result
-print("Skins inserted successfully!");

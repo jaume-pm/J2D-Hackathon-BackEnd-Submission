@@ -147,10 +147,6 @@ def change_skin_color():
         return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
     
 
-
-from bson import ObjectId
-from flask import jsonify
-
 def sell_skin(skin_id):
     try:
         json_data = request.get_json()
@@ -190,7 +186,29 @@ def sell_skin(skin_id):
     except Exception as e:
         return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
 
+from bson import ObjectId
+from flask import jsonify
 
+def get_skin_info(skin_id):
+    try:
+        # Convert the skin_id string to ObjectId
+        skin_id_obj = ObjectId(skin_id)
 
+        # Find the skin with the provided ID
+        skin = skins.find_one({"_id": skin_id_obj})
 
-    
+        # Check if the skin exists
+        if skin:
+            # Convert ObjectId to string for the "_id" field
+            skin["_id"] = str(skin["_id"])
+
+            # Return all information about the skin as a JSON response
+            return jsonify({"result": "ok", "skin": skin}), 200
+        else:
+            # Return an error response if the skin is not found
+            return jsonify({"error": f"No skin found with ID: {skin_id}"}), 404
+
+    except Exception as e:
+        # Handle exceptions and return an error response
+        return jsonify({"error": str(e)}), 500
+
